@@ -1,4 +1,3 @@
-api_service api_service.py from flask import Flask, request, jsonify
 from flask_cors import CORS
 import psycopg2, os
 
@@ -37,3 +36,4 @@ def ziyaretciler():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
+
