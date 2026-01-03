@@ -1,7 +1,8 @@
+from flask import Flask, request, render_template_string
+
 app = Flask(__name__)
 application = app
 
-# Verileri (isim ve şehir ikilisi olarak) bu listede tutacağız
 ziyaretci_listesi = []
 
 HTML = """
@@ -34,7 +35,7 @@ HTML = """
     <ul>
         {% for kisi in ziyaretciler %}
             <li>
-                <strong>{{ kisi.ad }}</strong> <br>
+                <strong>{{ kisi.ad }}</strong><br>
                 <span class="city">📍 {{ kisi.sehir }}</span>
             </li>
         {% endfor %}
@@ -48,18 +49,10 @@ def index():
     if request.method == "POST":
         isim = request.form.get("isim")
         sehir = request.form.get("sehir")
-        
+
         if isim and sehir:
-            # İsim ve şehri bir sözlük (dictionary) olarak listenin başına ekle
             ziyaretci_listesi.insert(0, {"ad": isim, "sehir": sehir})
-            
-            # Listenin çok uzamasını engellemek için son 10 kaydı tut
             if len(ziyaretci_listesi) > 10:
                 ziyaretci_listesi.pop()
 
     return render_template_string(HTML, ziyaretciler=ziyaretci_listesi)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
-
